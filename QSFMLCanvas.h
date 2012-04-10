@@ -4,15 +4,17 @@
 #include <SFML/Graphics.hpp>
 #include <qwidget.h>
 #include <qtimer.h>
+#include <QtDebug>
+#include <QFrame>
 
-
-class QSFMLCanvas : public QWidget, public sf::RenderWindow
+class QSFMLCanvas : public QFrame, public sf::RenderWindow
 {
 public :
 
 
     QSFMLCanvas(QWidget* Parent, const QPoint& Position, const QSize& Size, unsigned int FrameTime = 0);
     virtual ~QSFMLCanvas();
+    QSize canvasSize;
 
 private :
 
@@ -32,6 +34,7 @@ private :
 
     QTimer myTimer;       ///< Timer used to update the view
     bool   myInitialized; ///< Tell whether the SFML window has been initialized or not
+
 };
 
 

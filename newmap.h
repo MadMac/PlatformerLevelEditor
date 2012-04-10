@@ -20,12 +20,13 @@ public:
 
 private slots:
     void changeTilesetPath();
-
+    void changeObjectsPath();
 
 private:
     Ui::newMap *ui;
 
     QDir tilesetPath;
+    QDir objectsPath;
 
     void updateUi();
 

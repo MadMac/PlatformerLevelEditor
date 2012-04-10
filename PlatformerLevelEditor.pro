@@ -19,13 +19,23 @@ SOURCES += main.cpp\
     mapeditor.cpp \
     QSFMLCanvas.cpp \
     tileselection.cpp \
-    newmap.cpp
+    newmap.cpp \
+    newlayer.cpp \
+    tile.cpp \
+    deletelayer.cpp \
+    layer.cpp
 
 HEADERS  += mainwindow.h \
     mapeditor.h \
     QSFMLCanvas.h \
     tileselection.h \
-    newmap.h
+    newmap.h \
+    newlayer.h \
+    tile.h \
+    deletelayer.h \
+    layer.h
 
 FORMS    += mainwindow.ui \
-    newmap.ui
+    newmap.ui \
+    newlayer.ui \
+    deletelayer.ui

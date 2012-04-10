@@ -7,7 +7,7 @@
 #endif
 
 QSFMLCanvas::QSFMLCanvas(QWidget* Parent, const QPoint& Position, const QSize& Size, unsigned int FrameTime) :
-    QWidget       (Parent),
+    QFrame       (Parent),
     myInitialized (false)
 {
     // Setup some states to allow direct rendering into the widget
@@ -17,10 +17,15 @@ QSFMLCanvas::QSFMLCanvas(QWidget* Parent, const QPoint& Position, const QSize& S
 
     // Set strong focus to enable keyboard events to be received
     setFocusPolicy(Qt::StrongFocus);
-
+    SetFramerateLimit(60);
     // Setup the widget geometry
+
+
     move(Position);
     resize(Size);
+
+    canvasSize = Size;
+    qDebug() << canvasSize;
 
     // Setup the timer
     myTimer.setInterval(FrameTime);

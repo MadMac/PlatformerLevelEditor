@@ -9,6 +9,7 @@ newMap::newMap(QWidget *parent) :
     this->setFixedSize(425, 305);
 
     connect(ui->loadTileset, SIGNAL(clicked()), this, SLOT(changeTilesetPath()));
+    connect(ui->loadObjects, SIGNAL(clicked()), this, SLOT(changeObjectsPath()));
 }
 
 newMap::~newMap()
@@ -19,6 +20,7 @@ newMap::~newMap()
 void newMap::updateUi()
 {
     ui->tilesetPathText->setText(tilesetPath.absolutePath());
+    ui->objectsPathText->setText(objectsPath.absolutePath());
 }
 
 
@@ -34,6 +36,20 @@ void newMap::changeTilesetPath()
     updateUi();
 
     qDebug() << tilesetPath;
+}
+
+
+void newMap::changeObjectsPath()
+{
+    QString nObjectsPath = QFileDialog::getOpenFileName (this, tr("Objects file"), objectsPath.path());
+    if ( nObjectsPath.isNull() == false )
+    {
+        objectsPath.setPath(nObjectsPath);
+    }
+
+    updateUi();
+
+    qDebug() << objectsPath;
 }
 
 

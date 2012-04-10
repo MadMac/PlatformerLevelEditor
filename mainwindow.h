@@ -10,6 +10,9 @@
 #include "mapeditor.h"
 #include "tileselection.h"
 #include "newmap.h"
+#include "newlayer.h"
+#include "deletelayer.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -28,6 +31,10 @@ public slots:
     void saveLevel();
     void loadLevel();
 
+    void makeNewLayer();
+    void deleteLayer();
+    void showLayer();
+
 private:
     Ui::MainWindow *ui;
     QToolBar* ui_toolbar;
@@ -39,6 +46,8 @@ private:
     tileSelection* tileSFML;
 
     newMap* newMapWindow;
+    newLayer* newLayerWindow;
+    deletelayer* newDeleteLayerWindow;
 
     QDir currentFilePath;
 };
