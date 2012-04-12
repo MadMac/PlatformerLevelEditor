@@ -12,6 +12,7 @@
 #include "newmap.h"
 #include "newlayer.h"
 #include "deletelayer.h"
+#include "layer.h"
 
 namespace Ui {
 class MainWindow;
@@ -50,6 +51,10 @@ private:
     deletelayer* newDeleteLayerWindow;
 
     QDir currentFilePath;
+
+    std::vector<layer> allLayers;
+
+    int mapWidth, mapHeight;
 };
 
 #endif // MAINWINDOW_H

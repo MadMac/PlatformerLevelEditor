@@ -7,6 +7,7 @@
 #include <vector>
 #include <cmath>
 #include "tile.h"
+#include "layer.h"
 
 class mapEditor : public QSFMLCanvas
 {
@@ -17,6 +18,8 @@ public :
     {
 
     }
+
+    void init(std::vector<layer>* layers);
 private:
     void OnInit();
     void OnUpdate();
@@ -32,7 +35,8 @@ private:
 
     sf::View mainCamera;
 
-    std::vector<tile> backgroundTiles;
+    std::vector<layer>* layers;
+
 };
 
 #endif // MAPEDITOR_H

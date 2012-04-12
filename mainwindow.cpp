@@ -8,13 +8,15 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //Temp sizes
+    mapWidth = 32*20;
+    mapHeight = 32*10;
 
-    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(32*30, 32*15));
-    editorSFML->setMinimumSize(32*30, 32*15);
-    editorSFML->setMaximumSize(32*30, 32*15);
+    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
+    editorSFML->init(&allLayers);
+    editorSFML->setMinimumSize(mapWidth, mapHeight);
+    editorSFML->setMaximumSize(mapWidth, mapHeight);
     ui->mapEditor->setWidget(editorSFML);
-
-
 
     tileSFML = new tileSelection(this, QPoint(0,0), QSize(800,550));
     tileSFML->setMinimumSize(1024,768);
@@ -75,8 +77,9 @@ void MainWindow::loadLevel()
 
 void MainWindow::makeNewLayer()
 {
-    newLayerWindow = new newLayer(this);
+    newLayerWindow = new newLayer(this, &allLayers, mapWidth, mapHeight);
     newLayerWindow->show();
+
 }
 
 void MainWindow::deleteLayer()
