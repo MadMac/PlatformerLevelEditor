@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     newlayer.cpp \
     tile.cpp \
     deletelayer.cpp \
-    layer.cpp
+    layer.cpp \
+    renderthread.cpp \
+    glwidget.cpp
 
 HEADERS  += mainwindow.h \
     mapeditor.h \
@@ -33,7 +35,11 @@ HEADERS  += mainwindow.h \
     newlayer.h \
     tile.h \
     deletelayer.h \
-    layer.h
+    layer.h \
+    renderthread.h \
+    glwidget.h
+
+QT += opengl
 
 FORMS    += mainwindow.ui \
     newmap.ui \

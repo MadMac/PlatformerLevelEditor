@@ -12,15 +12,22 @@ MainWindow::MainWindow(QWidget *parent) :
     mapWidth = 32*20;
     mapHeight = 32*10;
 
-    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
-    editorSFML->init(&allLayers);
-    editorSFML->setMinimumSize(mapWidth, mapHeight);
-    editorSFML->setMaximumSize(mapWidth, mapHeight);
-    ui->mapEditor->setWidget(editorSFML);
+//    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
+//    editorSFML->init(&allLayers);
+//    editorSFML->setMinimumSize(mapWidth, mapHeight);
+//    editorSFML->setMaximumSize(mapWidth, mapHeight);
+//    ui->mapEditor->setWidget(editorSFML);
 
-    tileSFML = new tileSelection(this, QPoint(0,0), QSize(800,550));
-    tileSFML->setMinimumSize(1024,768);
-    ui->tileScrollArea->setWidget(tileSFML);
+    cGLWidget = new GLWidget();
+
+    cGLWidget->setMinimumSize(mapWidth, mapHeight);
+    cGLWidget->setMaximumSize(mapWidth, mapHeight);
+    ui->mapEditor->setWidget(cGLWidget);
+    cGLWidget->initRenderThread();
+
+//    tileSFML = new tileSelection(this, QPoint(0,0), QSize(800,550));
+//    tileSFML->setMinimumSize(1024,768);
+//    ui->tileScrollArea->setWidget(tileSFML);
 
     ui->tilesetTab->setTabText(0, "Tiles");
     ui->tilesetTab->setTabText(1, "Objects");
@@ -35,11 +42,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->deleteLayerButton, SIGNAL(clicked()), this, SLOT(deleteLayer()));
     connect(ui->layers, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(showLayer()));
 
+
+
 }
 MainWindow::~MainWindow()
 {
-    delete editorSFML;
-    delete tileSFML;
+//    delete editorSFML;
+//    delete tileSFML;
+//    delete editorOpenGL;
     delete ui;
     delete newMapWindow;
     delete newLayerWindow;
@@ -50,6 +60,12 @@ void MainWindow::openNewMap()
 {
     newMapWindow = new newMap();
     newMapWindow->show();
+}
+
+void MainWindow::closeEvent(QCloseEvent *evt)
+{
+    cGLWidget->stopRenderThread();    // stop the thread befor exiting
+    QMainWindow::closeEvent(evt);
 }
 
 

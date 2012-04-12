@@ -13,6 +13,8 @@
 #include "newlayer.h"
 #include "deletelayer.h"
 #include "layer.h"
+#include <QTimer>
+#include "glwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +37,8 @@ public slots:
     void makeNewLayer();
     void deleteLayer();
     void showLayer();
+protected:
+    void closeEvent(QCloseEvent *evt);
 
 private:
     Ui::MainWindow *ui;
@@ -43,6 +47,8 @@ private:
     QScrollArea* ui_Editor;
 
     mapEditor* editorSFML;
+
+    GLWidget* cGLWidget;
 
     tileSelection* tileSFML;
 
