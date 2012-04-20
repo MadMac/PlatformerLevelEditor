@@ -7,7 +7,6 @@
 #include <QPushButton>
 #include <QFrame>
 #include <QScrollArea>
-#include "mapeditor.h"
 #include "tileselection.h"
 #include "newmap.h"
 #include "newlayer.h"
@@ -15,6 +14,7 @@
 #include "layer.h"
 #include <QTimer>
 #include "glwidget.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -46,9 +46,7 @@ private:
 
     QScrollArea* ui_Editor;
 
-    mapEditor* editorSFML;
-
-    GLWidget* cGLWidget;
+    GLWidget* editorOpenGL;
 
     tileSelection* tileSFML;
 

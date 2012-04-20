@@ -9,8 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //Temp sizes
-    mapWidth = 32*20;
-    mapHeight = 32*10;
+    mapWidth = 32*80;
+    mapHeight = 32*25;
 
 //    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
 //    editorSFML->init(&allLayers);
@@ -18,13 +18,13 @@ MainWindow::MainWindow(QWidget *parent) :
 //    editorSFML->setMaximumSize(mapWidth, mapHeight);
 //    ui->mapEditor->setWidget(editorSFML);
 
-    cGLWidget = new GLWidget();
+    editorOpenGL = new GLWidget();
 
-    cGLWidget->setMinimumSize(mapWidth, mapHeight);
-    cGLWidget->setMaximumSize(mapWidth, mapHeight);
-    ui->mapEditor->setWidget(cGLWidget);
-    cGLWidget->initRenderThread();
-
+    editorOpenGL->setMinimumSize(mapWidth, mapHeight);
+    editorOpenGL->setMaximumSize(mapWidth, mapHeight);
+    ui->mapEditor->setWidget(editorOpenGL);
+    editorOpenGL->init(&allLayers, mapWidth/32, mapHeight/32);
+    editorOpenGL->show();
 //    tileSFML = new tileSelection(this, QPoint(0,0), QSize(800,550));
 //    tileSFML->setMinimumSize(1024,768);
 //    ui->tileScrollArea->setWidget(tileSFML);
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Layers
     connect(ui->addLayerButton, SIGNAL(clicked()), this, SLOT(makeNewLayer()));
     connect(ui->deleteLayerButton, SIGNAL(clicked()), this, SLOT(deleteLayer()));
-    connect(ui->layers, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(showLayer()));
+    connect(ui->layers, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(showLayer()));
 
 
 
@@ -49,11 +49,12 @@ MainWindow::~MainWindow()
 {
 //    delete editorSFML;
 //    delete tileSFML;
-//    delete editorOpenGL;
+    delete editorOpenGL;
     delete ui;
     delete newMapWindow;
     delete newLayerWindow;
     delete newDeleteLayerWindow;
+
 }
 
 void MainWindow::openNewMap()
@@ -64,7 +65,7 @@ void MainWindow::openNewMap()
 
 void MainWindow::closeEvent(QCloseEvent *evt)
 {
-    cGLWidget->stopRenderThread();    // stop the thread befor exiting
+
     QMainWindow::closeEvent(evt);
 }
 
@@ -100,13 +101,32 @@ void MainWindow::makeNewLayer()
 
 void MainWindow::deleteLayer()
 {
-    newDeleteLayerWindow = new deletelayer(this);
+    newDeleteLayerWindow = new deletelayer(this, &allLayers);
     newDeleteLayerWindow->show();
 
 }
 
 void MainWindow::showLayer()
 {
+    if (ui->layers->currentItem()->parent())
+    {
+        for (int i = 0; i < allLayers.size(); ++i)
+        {
+
+            if (allLayers.at(i).getId() == ui->layers->currentItem()->data(0, Qt::UserRole).toInt())
+            {
+                if (ui->layers->currentItem()->checkState(0) == Qt::Checked)
+                {
+                    allLayers.at(i).setVisible(true);
+                } else {
+                    allLayers.at(i).setVisible(false);
+                }
+
+            }
+        }
+
+
+    }
 
 
 }

@@ -7,7 +7,7 @@ layer::layer(std::string layerName, int width, int height, int id)
     this->height = height;
     this->id = id;
 
-    spriteSheet.LoadFromFile("metallipala.png");
+
 
     for (int i = 0; i < (width/32)*(height/32); ++i)
     {
@@ -20,9 +20,10 @@ layer::layer(std::string layerName, int width, int height, int id)
 
 }
 
-void layer::setVisible(bool visible)
+void layer::setVisible(bool visibility)
 {
-    this->visible = visible;
+    visible = visibility;
+    qDebug() << visible;
 }
 
 bool layer::isVisible()
@@ -37,34 +38,12 @@ int layer::getId()
 
 void layer::loadTextures()
 {
-    for (int i = 0; i < tiles.size(); ++i)
-    {
-        tiles.at(i).setTexture();
 
-    }
-    qDebug() << "Textures: done";
 }
 
-void layer::draw(sf::RenderWindow* rWindow)
+
+void layer::draw()
 {
-    int x = 0;
-    int y = 0;
 
 
-    for (int i = 0; i < tiles.size(); ++i)
-    {
-
-
-        if (tiles.at(i).getId() != 0)
-        {
-            tiles.at(i).draw(x*32, y*32, rWindow);
-        }
-
-        x++;
-        if (x*32 > width-32)
-        {
-            y++;
-            x = 0;
-        }
-    }
 }

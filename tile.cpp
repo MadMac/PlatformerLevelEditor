@@ -16,16 +16,16 @@ int tile::getId()
 
 void tile::setTexture()
 {
-    spriteSheet2.LoadFromFile("metallipala.png");
-    tileSprite.SetTexture(spriteSheet2);
+//    spriteSheet2.LoadFromFile("metallipala.png");
+//    tileSprite.SetTexture(spriteSheet2);
 }
 
 
-void tile::draw(int x, int y, sf::RenderWindow* rWindow)
+void tile::draw(int x, int y)
 {
 
-    tileSprite.SetPosition(sf::Vector2f(x, y));
-    rWindow->Draw(tileSprite);
+//    tileSprite.SetPosition(sf::Vector2f(x, y));
+//    rWindow->Draw(tileSprite);
 
 
 }

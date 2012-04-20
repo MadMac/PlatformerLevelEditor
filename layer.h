@@ -5,17 +5,16 @@
 #include <string>
 #include <vector>
 #include <QtDebug>
-#include <SFML/Graphics.hpp>
-
+#include <QImage>
 class layer
 {
 public:
     layer(std::string layerName, int width, int height, int id);
-    void setVisible(bool visible);
+    void setVisible(bool visibility);
     bool isVisible();
     int getId();
     std::vector<tile> tiles;
-    void draw(sf::RenderWindow* rWindow);
+    void draw();
     void loadTextures();
 
 private:
@@ -25,7 +24,6 @@ private:
     int width, height;
     int id;
 
-    sf::Texture spriteSheet;
 
 };
 

@@ -9,12 +9,11 @@
 #include "tile.h"
 #include "layer.h"
 
-class mapEditor : public QSFMLCanvas
+class mapEditor
 {
 public :
 
-    mapEditor(QWidget* Parent, const QPoint& Position, const QSize& Size) :
-        QSFMLCanvas(Parent, Position, Size)
+    mapEditor(QWidget* Parent, const QPoint& Position, const QSize& Size)
     {
 
     }
