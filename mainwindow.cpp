@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //Temp sizes
     mapWidth = 32*80;
     mapHeight = 32*25;
+    layerSelected = 0;
 
 //    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
 //    editorSFML->init(&allLayers);
@@ -41,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->addLayerButton, SIGNAL(clicked()), this, SLOT(makeNewLayer()));
     connect(ui->deleteLayerButton, SIGNAL(clicked()), this, SLOT(deleteLayer()));
     connect(ui->layers, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(showLayer()));
-
+    connect(ui->layers, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(selectLayer()));
 
 
 }
@@ -94,8 +95,11 @@ void MainWindow::loadLevel()
 
 void MainWindow::makeNewLayer()
 {
+
     newLayerWindow = new newLayer(this, &allLayers, mapWidth, mapHeight);
     newLayerWindow->show();
+
+
 
 }
 
@@ -110,22 +114,42 @@ void MainWindow::showLayer()
 {
     if (ui->layers->currentItem()->parent())
     {
+
         for (int i = 0; i < allLayers.size(); ++i)
         {
 
             if (allLayers.at(i).getId() == ui->layers->currentItem()->data(0, Qt::UserRole).toInt())
             {
+
                 if (ui->layers->currentItem()->checkState(0) == Qt::Checked)
                 {
                     allLayers.at(i).setVisible(true);
+                    ui->layers->currentItem()->setTextColor(0, Qt::black);
                 } else {
                     allLayers.at(i).setVisible(false);
+                    ui->layers->currentItem()->setTextColor(0, Qt::gray);
                 }
 
             }
         }
 
 
+    }
+
+
+
+}
+
+void MainWindow::selectLayer()
+{
+    if (ui->layers->currentItem()->parent())
+    {
+        layerSelected = ui->layers->currentItem()->data(0, Qt::UserRole).toInt();
+
+        qDebug() << "Layer selected: " <<  layerSelected;
+        editorOpenGL->setSelectedLayer(layerSelected);
+    } else {
+        qWarning("No layer found.");
     }
 
 

@@ -3,7 +3,6 @@
 
 #include <QGLWidget>
 #include <QtOpenGL>
-#include "renderthread.h"
 #include "layer.h"
 #include <QImage>
 #include <QCursor>
@@ -16,6 +15,9 @@ public:
     ~GLWidget();
     void init(std::vector<layer>* layers, int width, int height);
     std::vector<layer>* layers;
+
+    void setSelectedLayer(int layer);
+
 signals:
 
 public slots:
@@ -25,6 +27,8 @@ private slots:
 protected:
 
     void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent * e);
+    void mouseReleaseEvent(QMouseEvent *e);
 
 private:
     void loadTilesets();
@@ -39,6 +43,10 @@ private:
     QRect cursorRect;
 
     int mapWidth, mapHeight;
+    int layerSelected;
+    QTreeWidget* layersTree;
+
+    bool leftButtonDown;
 };
 
 #endif // GLWIDGET_H

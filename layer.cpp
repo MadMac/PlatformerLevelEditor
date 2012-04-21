@@ -12,9 +12,10 @@ layer::layer(std::string layerName, int width, int height, int id)
     for (int i = 0; i < (width/32)*(height/32); ++i)
     {
         tile tempTile;
-        tempTile.setId(1);
+        tempTile.setId(0);
         tiles.push_back(tempTile);
     }
+    qDebug() << tiles.size();
 
 
 

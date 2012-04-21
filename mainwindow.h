@@ -37,6 +37,7 @@ public slots:
     void makeNewLayer();
     void deleteLayer();
     void showLayer();
+    void selectLayer();
 protected:
     void closeEvent(QCloseEvent *evt);
 
@@ -57,6 +58,8 @@ private:
     QDir currentFilePath;
 
     std::vector<layer> allLayers;
+
+    int layerSelected;
 
     int mapWidth, mapHeight;
 };

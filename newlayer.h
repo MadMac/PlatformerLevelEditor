@@ -28,6 +28,7 @@ private:
     QTreeWidgetItem* newItem;
 
     std::vector<layer>* layers;
+    QString defaultName;
 
     int lWidth, lHeight;
 };
