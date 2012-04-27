@@ -9,6 +9,7 @@ GLWidget::GLWidget(QWidget *parent) :
 
     layerSelected = -1;
     leftButtonDown = false;
+    rightButtonDown = false;
 }
 
 GLWidget::~GLWidget()
@@ -28,13 +29,38 @@ void GLWidget::update()
 
             if (layerSelected != -1)
             {
-                for (int i = 0; i < layers->size(); ++i)
+                for (int i = 0; i < int(layers->size()); ++i)
                 {
 
                     if (layers->at(i).getId() == layerSelected)
                     {
 
-                            layers->at(i).tiles.at(id).setId(1);
+                            layers->at(i).tiles.at(id).setId(*currentTile);
+                            qDebug() << id << layers->at(i).tiles.at(id).getId();
+
+                    }
+                }
+            }
+        }
+
+    }
+
+    if (rightButtonDown)
+    {
+        if (cursorPos.x() > 0 && cursorPos.x() < mapWidth*32 && cursorPos.y() > 0 && cursorPos.y() < mapHeight*32)
+        {
+            int id = 0;
+            id = cursorPos.y()/32*mapWidth+cursorPos.x()/32;
+
+            if (layerSelected != -1)
+            {
+                for (int i = 0; i < int(layers->size()); ++i)
+                {
+
+                    if (layers->at(i).getId() == layerSelected)
+                    {
+
+                            layers->at(i).tiles.at(id).setId(0);
                             qDebug() << id << layers->at(i).tiles.at(id).getId();
 
                     }
@@ -67,10 +93,11 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
     painter.begin(this);
     background = QBrush(QColor(64, 32, 64));
+    painter.setBackground(background);
 //    painter.drawImage(0,0, spriteSheet);
 
 
-
+    double startx, starty;
 
 
     for (int i = 0; i < layers->size(); ++i)
@@ -83,7 +110,10 @@ void GLWidget::paintEvent(QPaintEvent *event)
             {
                 if (layers->at(i).tiles.at(j).getId() != 0)
                 {
-                    painter.drawImage(x*32,y*32, spriteSheet);
+                    startx = 32*fmod(layers->at(i).tiles.at(j).getId()-1, spriteSheet.width()/32);
+                    starty = 32*ceil(double(layers->at(i).tiles.at(j).getId())/(spriteSheet.width()/32)) - 32;
+                    painter.drawImage(x*32,y*32, spriteSheet, startx, starty, 32, 32);
+                    qDebug() << startx << starty << layers->at(i).tiles.at(j).getId();
                 }
                     x++;
                     if (x*32 > mapWidth*32-32)
@@ -117,6 +147,10 @@ void GLWidget::mousePressEvent(QMouseEvent *e)
     {
         leftButtonDown = true;
     }
+    else if (e->button() == Qt::RightButton)
+    {
+        rightButtonDown = true;
+    }
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *e)
@@ -125,14 +159,19 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *e)
     {
         leftButtonDown = false;
     }
+    else if (e->button() == Qt::RightButton)
+    {
+        rightButtonDown = false;
+    }
 }
 
-void GLWidget::init(std::vector<layer>* layers, int width, int height)
+void GLWidget::init(std::vector<layer>* layers, int width, int height, int* currentTile)
 {
     this->layers = layers;
+    this->currentTile = currentTile;
     mapWidth = width;
     mapHeight = height;
-    spriteSheet = QImage("metallipala.png");
+    spriteSheet = QImage("tileset1.png");
 
 
 

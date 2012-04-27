@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    currentTile = 1;
     //Temp sizes
     mapWidth = 32*80;
     mapHeight = 32*25;
@@ -20,15 +20,28 @@ MainWindow::MainWindow(QWidget *parent) :
 //    ui->mapEditor->setWidget(editorSFML);
 
     editorOpenGL = new GLWidget();
-
     editorOpenGL->setMinimumSize(mapWidth, mapHeight);
     editorOpenGL->setMaximumSize(mapWidth, mapHeight);
     ui->mapEditor->setWidget(editorOpenGL);
-    editorOpenGL->init(&allLayers, mapWidth/32, mapHeight/32);
+    editorOpenGL->init(&allLayers, mapWidth/32, mapHeight/32, &currentTile);
     editorOpenGL->show();
 //    tileSFML = new tileSelection(this, QPoint(0,0), QSize(800,550));
 //    tileSFML->setMinimumSize(1024,768);
 //    ui->tileScrollArea->setWidget(tileSFML);
+
+    tileGL = new tileSelection();
+    tileGL->setMinimumSize(100,100);
+    ui->tileScrollArea->setWidget(tileGL);
+    tileGL->init();
+    tileGL->loadTileset("tileset1.png");
+    tileGL->show();
+
+    objectGL = new tileSelection();
+    objectGL->setMinimumSize(100,100);
+    ui->objectScrollArea->setWidget(objectGL);
+    objectGL->init();
+    objectGL->show();
+
 
     ui->tilesetTab->setTabText(0, "Tiles");
     ui->tilesetTab->setTabText(1, "Objects");
@@ -44,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->layers, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(showLayer()));
     connect(ui->layers, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(selectLayer()));
 
+    connect(ui->tilesetTab, SIGNAL(currentChanged(int)), this, SLOT(changeTab()));
 
 }
 MainWindow::~MainWindow()
@@ -55,6 +69,7 @@ MainWindow::~MainWindow()
     delete newMapWindow;
     delete newLayerWindow;
     delete newDeleteLayerWindow;
+    delete tileGL;
 
 }
 
@@ -153,4 +168,22 @@ void MainWindow::selectLayer()
     }
 
 
+}
+
+void MainWindow::changeTab()
+{
+//    switch(ui->tilesetTab->currentIndex())
+//    {
+//    case 0:
+//        ui->objectScrollArea->takeWidget();
+//        ui->tileScrollArea->setWidget(tileGL);
+//        break;
+//    case 1:
+//        ui->tileScrollArea->takeWidget();
+//        ui->objectScrollArea->setWidget(tileGL);
+//        break;
+//    default:
+//        qWarning("Error: no tab found.");
+//    }
+    qDebug() << "Tab changed" << ui->tilesetTab->currentIndex();
 }

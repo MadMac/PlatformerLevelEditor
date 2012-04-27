@@ -6,6 +6,7 @@
 #include "layer.h"
 #include <QImage>
 #include <QCursor>
+#include <cmath>
 
 class GLWidget : public QGLWidget
 {
@@ -13,7 +14,7 @@ class GLWidget : public QGLWidget
 public:
     explicit GLWidget(QWidget *parent = 0);
     ~GLWidget();
-    void init(std::vector<layer>* layers, int width, int height);
+    void init(std::vector<layer>* layers, int width, int height, int *currentTile);
     std::vector<layer>* layers;
 
     void setSelectedLayer(int layer);
@@ -33,9 +34,10 @@ protected:
 private:
     void loadTilesets();
 
+    int *currentTile;
+
     QTimer myTimer;
-    GLuint texture;
-    QImage spriteSheet, formattedSheet;
+    QImage spriteSheet;
     QPainter painter;
     QBrush background;
 
@@ -47,6 +49,7 @@ private:
     QTreeWidget* layersTree;
 
     bool leftButtonDown;
+    bool rightButtonDown;
 };
 
 #endif // GLWIDGET_H

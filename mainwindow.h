@@ -7,13 +7,14 @@
 #include <QPushButton>
 #include <QFrame>
 #include <QScrollArea>
-#include "tileselection.h"
+
 #include "newmap.h"
 #include "newlayer.h"
 #include "deletelayer.h"
 #include "layer.h"
 #include <QTimer>
 #include "glwidget.h"
+#include "tileselection.h"
 
 
 namespace Ui {
@@ -38,6 +39,8 @@ public slots:
     void deleteLayer();
     void showLayer();
     void selectLayer();
+
+    void changeTab();
 protected:
     void closeEvent(QCloseEvent *evt);
 
@@ -49,7 +52,10 @@ private:
 
     GLWidget* editorOpenGL;
 
-    tileSelection* tileSFML;
+    tileSelection* tileGL;
+    tileSelection* objectGL;
+
+    int currentTile;
 
     newMap* newMapWindow;
     newLayer* newLayerWindow;
