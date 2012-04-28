@@ -14,7 +14,7 @@ class GLWidget : public QGLWidget
 public:
     explicit GLWidget(QWidget *parent = 0);
     ~GLWidget();
-    void init(std::vector<layer>* layers, int width, int height, int *currentTile);
+    void init(std::vector<layer>* layers, int width, int height, std::vector<int>* currentTile);
     std::vector<layer>* layers;
 
     void setSelectedLayer(int layer);
@@ -34,7 +34,7 @@ protected:
 private:
     void loadTilesets();
 
-    int *currentTile;
+    std::vector<int> *currentTile;
 
     QTimer myTimer;
     QImage spriteSheet;

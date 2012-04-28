@@ -17,6 +17,24 @@ void tileSelection::update()
 
 }
 
+void tileSelection::mousePressEvent(QMouseEvent *e)
+{
+
+    if (e->button() == Qt::LeftButton)
+    {
+        if (cursorPos.x() > 0 && cursorPos.x() < tilesetImage.width() && cursorPos.y() > 0 && cursorPos.y() < tilesetImage.height())
+        {
+            currentTile->clear();
+            int currentId = 0;
+            currentId = 1+(tilesetImage.width()/32)*floor(cursorPos.y()/32)+floor(cursorPos.x()/32);
+
+            currentTile->push_back(currentId);
+            qDebug() << currentTile->at(0);
+        }
+    }
+
+}
+
 void tileSelection::paintEvent(QPaintEvent *event)
 {
     cursorPos = mapFromGlobal(QCursor::pos());
@@ -42,16 +60,30 @@ void tileSelection::paintEvent(QPaintEvent *event)
 
     painter.drawImage(0,0, tilesetImage);
 
-    painter.fillRect(cursorRect, QColor(150, 185, 255, 50));
-    painter.setPen(QPen(QColor(191, 215, 255), 1, Qt::SolidLine));
-    painter.drawRect(cursorRect);
-
+    if (cursorPos.x() > 0 && cursorPos.x() < tilesetImage.width() && cursorPos.y() > 0 && cursorPos.y() < tilesetImage.height())
+    {
+        painter.fillRect(cursorRect, QColor(150, 185, 255, 50));
+        painter.setPen(QPen(QColor(191, 215, 255), 1, Qt::SolidLine));
+        painter.drawRect(cursorRect);
+    }
+    painter.setPen(QPen(QColor(255, 0, 0), 1, Qt::SolidLine));
+    painter.fillRect(selectedRect, QColor(255, 0, 0, 50));
+    for (int i = 0; i < currentTile->size(); ++i)
+    {
+        selectedRect.setX(32*fmod(currentTile->at(i)-1, tilesetImage.width()/32));
+        selectedRect.setY(32*ceil(double(currentTile->at(i))/(tilesetImage.width()/32)) - 32);
+        selectedRect.setWidth(31);
+        selectedRect.setHeight(31);
+        painter.drawRect(selectedRect);
+    }
 
     painter.end();
 }
 
-void tileSelection::init()
+void tileSelection::init(std::vector<int>* currentTile)
 {
+
+    this->currentTile = currentTile;
     connect(&upTimer, SIGNAL(timeout()), this, SLOT(repaint()));
     connect(&upTimer, SIGNAL(timeout()), this, SLOT(update()));
     upTimer.start();

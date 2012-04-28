@@ -14,7 +14,6 @@ INCLUDEPATH += E:/QtSDK/Desktop/Qt/4.7.3/mingw/include
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mapeditor.cpp \
     tileselection.cpp \
     newmap.cpp \
     newlayer.cpp \
@@ -24,7 +23,6 @@ SOURCES += main.cpp\
     glwidget.cpp
 
 HEADERS  += mainwindow.h \
-    mapeditor.h \
     tileselection.h \
     newmap.h \
     newlayer.h \

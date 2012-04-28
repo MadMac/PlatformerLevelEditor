@@ -10,6 +10,8 @@ GLWidget::GLWidget(QWidget *parent) :
     layerSelected = -1;
     leftButtonDown = false;
     rightButtonDown = false;
+
+    setMouseTracking(true);
 }
 
 GLWidget::~GLWidget()
@@ -35,7 +37,7 @@ void GLWidget::update()
                     if (layers->at(i).getId() == layerSelected)
                     {
 
-                            layers->at(i).tiles.at(id).setId(*currentTile);
+                            layers->at(i).tiles.at(id).setId(currentTile->at(0));
                             qDebug() << id << layers->at(i).tiles.at(id).getId();
 
                     }
@@ -113,7 +115,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
                     startx = 32*fmod(layers->at(i).tiles.at(j).getId()-1, spriteSheet.width()/32);
                     starty = 32*ceil(double(layers->at(i).tiles.at(j).getId())/(spriteSheet.width()/32)) - 32;
                     painter.drawImage(x*32,y*32, spriteSheet, startx, starty, 32, 32);
-                    qDebug() << startx << starty << layers->at(i).tiles.at(j).getId();
                 }
                     x++;
                     if (x*32 > mapWidth*32-32)
@@ -165,7 +166,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-void GLWidget::init(std::vector<layer>* layers, int width, int height, int* currentTile)
+void GLWidget::init(std::vector<layer>* layers, int width, int height, std::vector<int>* currentTile)
 {
     this->layers = layers;
     this->currentTile = currentTile;

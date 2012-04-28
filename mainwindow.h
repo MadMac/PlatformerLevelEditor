@@ -55,7 +55,7 @@ private:
     tileSelection* tileGL;
     tileSelection* objectGL;
 
-    int currentTile;
+    std::vector<int> currentTile;
 
     newMap* newMapWindow;
     newLayer* newLayerWindow;

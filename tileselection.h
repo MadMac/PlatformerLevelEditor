@@ -4,7 +4,7 @@
 
 #include <QGLWidget>
 #include <QtOpenGL>
-
+#include <QtDebug>
 
 class tileSelection : public QGLWidget
 {
@@ -12,13 +12,14 @@ class tileSelection : public QGLWidget
 public:
     explicit tileSelection(QWidget *parent = 0);
     ~tileSelection();
-    void init();
+    void init(std::vector<int>* currentTile);
     void loadTileset(std::string path);
 private slots:
     void update();
 protected:
 
     void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *e);
 
 private:
     QPainter painter;
@@ -28,7 +29,10 @@ private:
     QPoint cursorPos;
     QRect cursorRect;
 
+    QRect selectedRect;
+
     QImage tilesetImage;
+    std::vector<int> *currentTile;
 };
 
 #endif // TILESELECTION_H

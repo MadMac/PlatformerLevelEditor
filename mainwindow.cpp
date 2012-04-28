@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    currentTile = 1;
+
+    currentTile.push_back(1);
     //Temp sizes
     mapWidth = 32*80;
     mapHeight = 32*25;
@@ -32,14 +33,14 @@ MainWindow::MainWindow(QWidget *parent) :
     tileGL = new tileSelection();
     tileGL->setMinimumSize(100,100);
     ui->tileScrollArea->setWidget(tileGL);
-    tileGL->init();
+    tileGL->init(&currentTile);
     tileGL->loadTileset("tileset1.png");
     tileGL->show();
 
     objectGL = new tileSelection();
     objectGL->setMinimumSize(100,100);
     ui->objectScrollArea->setWidget(objectGL);
-    objectGL->init();
+    objectGL->init(&currentTile);
     objectGL->show();
 
 
