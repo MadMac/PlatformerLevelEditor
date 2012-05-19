@@ -5,6 +5,7 @@
 #include <QGLWidget>
 #include <QtOpenGL>
 #include <QtDebug>
+#include <QKeyEvent>
 
 class tileSelection : public QGLWidget
 {
@@ -20,6 +21,8 @@ protected:
 
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *e);
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
 
 private:
     QPainter painter;
@@ -33,6 +36,8 @@ private:
 
     QImage tilesetImage;
     std::vector<int> *currentTile;
+
+    bool ctrlDown;
 };
 
 #endif // TILESELECTION_H

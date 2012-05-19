@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     tile.cpp \
     deletelayer.cpp \
     layer.cpp \
-    glwidget.cpp
+    glwidget.cpp \
+    attribute.cpp \
+    addattribute.cpp
 
 HEADERS  += mainwindow.h \
     tileselection.h \
@@ -29,11 +31,14 @@ HEADERS  += mainwindow.h \
     tile.h \
     deletelayer.h \
     layer.h \
-    glwidget.h
+    glwidget.h \
+    attribute.h \
+    addattribute.h
 
 QT += opengl
 
 FORMS    += mainwindow.ui \
     newmap.ui \
     newlayer.ui \
-    deletelayer.ui
+    deletelayer.ui \
+    addattribute.ui

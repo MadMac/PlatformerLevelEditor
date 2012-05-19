@@ -34,7 +34,7 @@ void newLayer::addNewLayer()
     newItem->setCheckState(0, Qt::Checked);
     newItem->setData(0, Qt::UserRole, layers->size());
 
-    layer tempLayer(newItem->text(0).toStdString(), lWidth, lHeight, newItem->data(0, Qt::UserRole).toInt());
+    layer tempLayer(newItem->text(0).toStdString(), lWidth, lHeight, newItem->data(0, Qt::UserRole).toInt(), ui->layerSelect->currentIndex());
     layers->push_back(tempLayer);
     layers->at(layers->size()-1).loadTextures();
     layersTree->setCurrentItem(newItem);

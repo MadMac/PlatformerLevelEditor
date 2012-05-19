@@ -2,6 +2,9 @@
 #define TILE_H
 
 #include <QtDebug>
+#include <vector>
+
+#include "attribute.h"
 
 class tile
 {
@@ -11,6 +14,7 @@ public:
     void setTexture();
     void draw(int x, int y);
     int getId();
+    std::vector<attribute> attributes;
 
 private:
     int id;

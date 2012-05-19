@@ -7,6 +7,8 @@
 #include <QPushButton>
 #include <QFrame>
 #include <QScrollArea>
+#include <iostream>
+#include <fstream>
 
 #include "newmap.h"
 #include "newlayer.h"
@@ -15,6 +17,7 @@
 #include <QTimer>
 #include "glwidget.h"
 #include "tileselection.h"
+#include "addattribute.h"
 
 
 namespace Ui {
@@ -39,10 +42,16 @@ public slots:
     void deleteLayer();
     void showLayer();
     void selectLayer();
+    void addAttributeWindow();
 
     void changeTab();
+
+    void changeToolAddObject();
+    void changeToolPen();
+    void changeToolMoveObject();
 protected:
     void closeEvent(QCloseEvent *evt);
+    void keyPressEvent(QKeyEvent *e);
 
 private:
     Ui::MainWindow *ui;
@@ -60,6 +69,7 @@ private:
     newMap* newMapWindow;
     newLayer* newLayerWindow;
     deletelayer* newDeleteLayerWindow;
+    addAttribute* newAttributeWindow;
 
     QDir currentFilePath;
 
@@ -68,6 +78,10 @@ private:
     int layerSelected;
 
     int mapWidth, mapHeight;
+
+    std::ofstream file;
+
+    int currentTool;
 };
 
 #endif // MAINWINDOW_H

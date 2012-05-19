@@ -132,7 +132,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="addAttributeButton">
         <property name="text">
          <string>Add Attribute</string>
         </property>
@@ -493,6 +493,10 @@
    <addaction name="actionLoad"/>
    <addaction name="separator"/>
    <addaction name="actionRun"/>
+   <addaction name="separator"/>
+   <addaction name="actionPen"/>
+   <addaction name="actionAddObject"/>
+   <addaction name="actionMoveObject"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -580,6 +584,21 @@
   <action name="actionLevel">
    <property name="text">
     <string>Level</string>
+   </property>
+  </action>
+  <action name="actionAddObject">
+   <property name="text">
+    <string>AddObject</string>
+   </property>
+  </action>
+  <action name="actionMoveObject">
+   <property name="text">
+    <string>moveObject</string>
+   </property>
+  </action>
+  <action name="actionPen">
+   <property name="text">
+    <string>Pen</string>
    </property>
   </action>
  </widget>

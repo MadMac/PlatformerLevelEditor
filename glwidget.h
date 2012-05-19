@@ -14,7 +14,7 @@ class GLWidget : public QGLWidget
 public:
     explicit GLWidget(QWidget *parent = 0);
     ~GLWidget();
-    void init(std::vector<layer>* layers, int width, int height, std::vector<int>* currentTile);
+    void init(std::vector<layer>* layers, int width, int height, std::vector<int>* currentTile, int* currentTool);
     std::vector<layer>* layers;
 
     void setSelectedLayer(int layer);
@@ -43,6 +43,7 @@ private:
 
     QPoint cursorPos;
     QRect cursorRect;
+    QRect collisionRect;
 
     int mapWidth, mapHeight;
     int layerSelected;
@@ -50,6 +51,8 @@ private:
 
     bool leftButtonDown;
     bool rightButtonDown;
+
+    int *currentTool;
 };
 
 #endif // GLWIDGET_H

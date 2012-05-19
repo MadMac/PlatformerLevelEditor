@@ -5,6 +5,7 @@ tileSelection::tileSelection(QWidget *parent) :
     QGLWidget(parent)
 {
     upTimer.setInterval(16);
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 tileSelection::~tileSelection()
@@ -17,6 +18,25 @@ void tileSelection::update()
 
 }
 
+void tileSelection::keyPressEvent(QKeyEvent *e)
+{
+
+    if (e->key() == Qt::Key_Control)
+    {
+        qDebug() << "Control down";
+        ctrlDown = true;
+
+    }
+}
+
+void tileSelection::keyReleaseEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Control)
+    {
+        ctrlDown = false;
+    }
+}
+
 void tileSelection::mousePressEvent(QMouseEvent *e)
 {
 
@@ -24,7 +44,10 @@ void tileSelection::mousePressEvent(QMouseEvent *e)
     {
         if (cursorPos.x() > 0 && cursorPos.x() < tilesetImage.width() && cursorPos.y() > 0 && cursorPos.y() < tilesetImage.height())
         {
-            currentTile->clear();
+            if (!ctrlDown)
+            {
+                currentTile->clear();
+            }
             int currentId = 0;
             currentId = 1+(tilesetImage.width()/32)*floor(cursorPos.y()/32)+floor(cursorPos.x()/32);
 
@@ -67,9 +90,10 @@ void tileSelection::paintEvent(QPaintEvent *event)
         painter.drawRect(cursorRect);
     }
     painter.setPen(QPen(QColor(255, 0, 0), 1, Qt::SolidLine));
-    painter.fillRect(selectedRect, QColor(255, 0, 0, 50));
+
     for (int i = 0; i < currentTile->size(); ++i)
     {
+        painter.fillRect(selectedRect, QColor(255, 0, 0, 50));
         selectedRect.setX(32*fmod(currentTile->at(i)-1, tilesetImage.width()/32));
         selectedRect.setY(32*ceil(double(currentTile->at(i))/(tilesetImage.width()/32)) - 32);
         selectedRect.setWidth(31);

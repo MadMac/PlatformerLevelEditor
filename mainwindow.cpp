@@ -10,9 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     currentTile.push_back(1);
     //Temp sizes
-    mapWidth = 32*80;
-    mapHeight = 32*25;
+    mapWidth = 32*10;
+    mapHeight = 32*5;
     layerSelected = 0;
+    currentTool = 1;
 
 //    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
 //    editorSFML->init(&allLayers);
@@ -24,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     editorOpenGL->setMinimumSize(mapWidth, mapHeight);
     editorOpenGL->setMaximumSize(mapWidth, mapHeight);
     ui->mapEditor->setWidget(editorOpenGL);
-    editorOpenGL->init(&allLayers, mapWidth/32, mapHeight/32, &currentTile);
+    editorOpenGL->init(&allLayers, mapWidth/32, mapHeight/32, &currentTile, &currentTool);
     editorOpenGL->show();
 //    tileSFML = new tileSelection(this, QPoint(0,0), QSize(800,550));
 //    tileSFML->setMinimumSize(1024,768);
@@ -50,11 +51,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(openNewMap()));
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveLevel()));
     connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(loadLevel()));
-
+    connect(ui->actionAddObject, SIGNAL(triggered()), this, SLOT(changeToolAddObject()));
+    connect(ui->actionMoveObject, SIGNAL(triggered()), this, SLOT(changeToolMoveObject()));
+    connect(ui->actionPen, SIGNAL(triggered()), this, SLOT(changeToolPen()));
 
     //Layers
     connect(ui->addLayerButton, SIGNAL(clicked()), this, SLOT(makeNewLayer()));
     connect(ui->deleteLayerButton, SIGNAL(clicked()), this, SLOT(deleteLayer()));
+    connect(ui->addAttributeButton, SIGNAL(clicked()), this, SLOT(addAttributeWindow()));
     connect(ui->layers, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(showLayer()));
     connect(ui->layers, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(selectLayer()));
 
@@ -86,21 +90,95 @@ void MainWindow::closeEvent(QCloseEvent *evt)
     QMainWindow::closeEvent(evt);
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Escape)
+    {
+
+    }
+}
+
 
 void MainWindow::saveLevel()
 {
-    QString nSaveFilePath = QFileDialog::getSaveFileName (this, tr("Save level"), currentFilePath.path());
+    QString nSaveFilePath = QFileDialog::getSaveFileName (this, tr("Save level"), currentFilePath.path(), ".level");
     if ( nSaveFilePath.isNull() == false )
     {
         currentFilePath.setPath(nSaveFilePath);
+        file.open(currentFilePath.absolutePath().toAscii(), std::ios::in | std::ios::trunc);
+        if (file.is_open())
+        {
+            file << mapWidth;
+            file << "\n";
+            file << mapHeight;
+            file << "\nBackground\n";
+            for (int i = 0; i < allLayers.size(); ++i)
+            {
+                if (allLayers[i].getCategory() == 0)
+                {
+                    file << allLayers[i].layerName;
+                    file << "\n";
+                    for (int j = 0; j < allLayers[i].tiles.size(); ++j)
+                    {
+                        file << allLayers[i].tiles.at(j).getId();
+                    }
+                }
+            }
+            file << "\nForeground\n";
+            for (int i = 0; i < allLayers.size(); ++i)
+            {
+                if (allLayers[i].getCategory() == 1)
+                {
+                    file << allLayers[i].layerName;
+                    file << "\n";
+                    for (int j = 0; j < allLayers[i].tiles.size(); ++j)
+                    {
+                        file << allLayers[i].tiles.at(j).getId();
+                    }
+                }
+            }
+            file << "\nCollision\n";
+            for (int i = 0; i < allLayers.size(); ++i)
+            {
+                if (allLayers[i].getCategory() == 2)
+                {
+                    file << allLayers[i].layerName;
+                    file << "\n";
+                    for (int j = 0; j < allLayers[i].tiles.size(); ++j)
+                    {
+                        if (allLayers[i].tiles.at(j).getId() != 0)
+                        {
+                            file << "1";
+                        } else {
+                            file << "0";
+                        }
+                    }
+                }
+            }
+            file << "\nObjects\n";
+            for (int i = 0; i < allLayers.size(); ++i)
+            {
+                if (allLayers[i].getCategory() == 3)
+                {
+                    file << allLayers[i].layerName;
+                    file << "\n";
+                    for (int j = 0; j < allLayers[i].tiles.size(); ++j)
+                    {
+                        file << allLayers[i].tiles.at(j).getId();
+                    }
+                }
+            }
+        }
+        file.close();
     }
 
-    qDebug() << currentFilePath;
+
+    qDebug() << currentFilePath.absolutePath();
 }
 
 void MainWindow::loadLevel()
 {
-    QString nLoadFilePath = QFileDialog::getOpenFileName (this, tr("Save level"), currentFilePath.path());
+    QString nLoadFilePath = QFileDialog::getOpenFileName (this, tr("Save level"), currentFilePath.path(), ".level");
     if ( nLoadFilePath.isNull() == false )
     {
         currentFilePath.setPath(nLoadFilePath);
@@ -114,16 +192,12 @@ void MainWindow::makeNewLayer()
 
     newLayerWindow = new newLayer(this, &allLayers, mapWidth, mapHeight);
     newLayerWindow->show();
-
-
-
 }
 
 void MainWindow::deleteLayer()
 {
     newDeleteLayerWindow = new deletelayer(this, &allLayers);
     newDeleteLayerWindow->show();
-
 }
 
 void MainWindow::showLayer()
@@ -171,6 +245,12 @@ void MainWindow::selectLayer()
 
 }
 
+void MainWindow::addAttributeWindow()
+{
+    newAttributeWindow = new addAttribute(this);
+    newAttributeWindow->show();
+}
+
 void MainWindow::changeTab()
 {
 //    switch(ui->tilesetTab->currentIndex())
@@ -187,4 +267,21 @@ void MainWindow::changeTab()
 //        qWarning("Error: no tab found.");
 //    }
     qDebug() << "Tab changed" << ui->tilesetTab->currentIndex();
+}
+void MainWindow::changeToolPen()
+{
+    currentTool = 1;
+    qDebug() << "changed tool to: " << currentTool;
+
+}
+void MainWindow::changeToolAddObject()
+{
+    currentTool = 2;
+    qDebug() << "changed tool to: " << currentTool;
+
+}
+void MainWindow::changeToolMoveObject()
+{
+    currentTool = 3;
+    qDebug() << "changed tool to: " << currentTool;
 }

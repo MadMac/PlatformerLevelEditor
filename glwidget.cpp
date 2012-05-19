@@ -34,7 +34,7 @@ void GLWidget::update()
                 for (int i = 0; i < int(layers->size()); ++i)
                 {
 
-                    if (layers->at(i).getId() == layerSelected)
+                    if (layers->at(i).getId() == layerSelected && layers->at(i).getCategory() != 3 && *currentTool == 1)
                     {
 
                             layers->at(i).tiles.at(id).setId(currentTile->at(0));
@@ -59,7 +59,7 @@ void GLWidget::update()
                 for (int i = 0; i < int(layers->size()); ++i)
                 {
 
-                    if (layers->at(i).getId() == layerSelected)
+                    if (layers->at(i).getId() == layerSelected && layers->at(i).getCategory() != 3 && *currentTool == 1)
                     {
 
                             layers->at(i).tiles.at(id).setId(0);
@@ -96,7 +96,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.begin(this);
     background = QBrush(QColor(64, 32, 64));
     painter.setBackground(background);
-//    painter.drawImage(0,0, spriteSheet);
+//    painter.drawImage(0,0, spriteShet);
 
 
     double startx, starty;
@@ -114,7 +114,19 @@ void GLWidget::paintEvent(QPaintEvent *event)
                 {
                     startx = 32*fmod(layers->at(i).tiles.at(j).getId()-1, spriteSheet.width()/32);
                     starty = 32*ceil(double(layers->at(i).tiles.at(j).getId())/(spriteSheet.width()/32)) - 32;
-                    painter.drawImage(x*32,y*32, spriteSheet, startx, starty, 32, 32);
+                    if (layers->at(i).getCategory() != 2)
+                    {
+                        painter.drawImage(x*32,y*32, spriteSheet, startx, starty, 32, 32);
+                    } else {
+
+                        collisionRect.setTopLeft(QPoint(x*32, y*32));
+                        collisionRect.setWidth(31);
+                        collisionRect.setHeight(31);
+                        painter.fillRect(collisionRect, QColor(223, 255, 178, 50));
+                        painter.setPen(QPen(QColor(187, 255, 91, 95), 1, Qt::SolidLine));
+                        painter.drawRect(collisionRect);
+
+                    }
                 }
                     x++;
                     if (x*32 > mapWidth*32-32)
@@ -166,7 +178,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-void GLWidget::init(std::vector<layer>* layers, int width, int height, std::vector<int>* currentTile)
+void GLWidget::init(std::vector<layer>* layers, int width, int height, std::vector<int>* currentTile, int *currentTool)
 {
     this->layers = layers;
     this->currentTile = currentTile;
@@ -174,7 +186,7 @@ void GLWidget::init(std::vector<layer>* layers, int width, int height, std::vect
     mapHeight = height;
     spriteSheet = QImage("tileset1.png");
 
-
+    this->currentTool = currentTool;
 
 
     connect(&myTimer, SIGNAL(timeout()), this, SLOT(repaint()));
