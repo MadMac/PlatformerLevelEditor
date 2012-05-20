@@ -1,7 +1,7 @@
 #include "newlayer.h"
 #include "ui_newlayer.h"
 
-newLayer::newLayer(QWidget *parent, std::vector<layer>* layers, int width, int height) :
+newLayer::newLayer(QWidget *parent, std::vector<layer>* layers, int width, int height, std::vector<int>* layerCount) :
     QDialog(parent),
     ui(new Ui::newLayer)
 {
@@ -13,9 +13,9 @@ newLayer::newLayer(QWidget *parent, std::vector<layer>* layers, int width, int h
 
     lWidth = width;
     lHeight = height;
-
+    this->layerCount = layerCount;
     defaultName.append("Layer ");
-    defaultName.append(QString::number(layers->size()+1));
+    defaultName.append(QString::number(layerCount->size()+1));
 
     ui->layerName->setText(defaultName);
 
@@ -32,12 +32,14 @@ void newLayer::addNewLayer()
     newItem = new QTreeWidgetItem(layersTree->topLevelItem(ui->layerSelect->currentIndex()));
     newItem->setText(0, ui->layerName->text());
     newItem->setCheckState(0, Qt::Checked);
-    newItem->setData(0, Qt::UserRole, layers->size());
+    newItem->setData(0, Qt::UserRole, layerCount->size());
 
     layer tempLayer(newItem->text(0).toStdString(), lWidth, lHeight, newItem->data(0, Qt::UserRole).toInt(), ui->layerSelect->currentIndex());
     layers->push_back(tempLayer);
     layers->at(layers->size()-1).loadTextures();
     layersTree->setCurrentItem(newItem);
+    layerCount->push_back(layerCount->size());
     qDebug() << "Added layer: " << newItem->text(0) << " " << newItem->data(0, Qt::UserRole).toInt() << " " << ui->layerSelect->currentText();
+
 }
 

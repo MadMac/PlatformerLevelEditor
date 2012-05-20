@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     layerSelected = 0;
     currentTool = 1;
 
+
 //    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
 //    editorSFML->init(&allLayers);
 //    editorSFML->setMinimumSize(mapWidth, mapHeight);
@@ -189,13 +190,14 @@ void MainWindow::loadLevel()
 
 void MainWindow::makeNewLayer()
 {
-
-    newLayerWindow = new newLayer(this, &allLayers, mapWidth, mapHeight);
+    newLayerWindow = new newLayer(this, &allLayers, mapWidth, mapHeight, &layerCount);
     newLayerWindow->show();
+
 }
 
 void MainWindow::deleteLayer()
 {
+
     newDeleteLayerWindow = new deletelayer(this, &allLayers);
     newDeleteLayerWindow->show();
 }

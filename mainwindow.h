@@ -82,6 +82,7 @@ private:
     std::ofstream file;
 
     int currentTool;
+    std::vector<int> layerCount;
 };
 
 #endif // MAINWINDOW_H
