@@ -63,7 +63,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->layers, SIGNAL(itemChanged(QTreeWidgetItem*,int)), this, SLOT(showLayer()));
     connect(ui->layers, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(selectLayer()));
 
+
     connect(ui->tilesetTab, SIGNAL(currentChanged(int)), this, SLOT(changeTab()));
+
+
 
 }
 MainWindow::~MainWindow()
@@ -240,6 +243,19 @@ void MainWindow::selectLayer()
 
         qDebug() << "Layer selected: " <<  layerSelected;
         editorOpenGL->setSelectedLayer(layerSelected);
+
+        if (ui->layers->currentItem()->data(1, Qt::UserRole).toInt() == 3)
+        {
+            ui->actionMoveObject->setDisabled(false);
+            ui->actionPen->setDisabled(true);
+            ui->actionAddObject->setDisabled(false);
+            changeToolMoveObject();
+        } else {
+            ui->actionMoveObject->setDisabled(true);
+            ui->actionPen->setDisabled(false);
+            ui->actionAddObject->setDisabled(true);
+            changeToolPen();
+        }
     } else {
         qWarning("No layer found.");
     }
@@ -288,3 +304,4 @@ void MainWindow::changeToolMoveObject()
     currentTool = 3;
     qDebug() << "changed tool to: " << currentTool;
 }
+

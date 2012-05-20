@@ -49,6 +49,7 @@ public slots:
     void changeToolAddObject();
     void changeToolPen();
     void changeToolMoveObject();
+
 protected:
     void closeEvent(QCloseEvent *evt);
     void keyPressEvent(QKeyEvent *e);

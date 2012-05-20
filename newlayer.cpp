@@ -33,6 +33,7 @@ void newLayer::addNewLayer()
     newItem->setText(0, ui->layerName->text());
     newItem->setCheckState(0, Qt::Checked);
     newItem->setData(0, Qt::UserRole, layerCount->size());
+    newItem->setData(1, Qt::UserRole, ui->layerSelect->currentIndex());
 
     layer tempLayer(newItem->text(0).toStdString(), lWidth, lHeight, newItem->data(0, Qt::UserRole).toInt(), ui->layerSelect->currentIndex());
     layers->push_back(tempLayer);
