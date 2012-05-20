@@ -34,11 +34,18 @@ void GLWidget::update()
                 for (int i = 0; i < int(layers->size()); ++i)
                 {
 
-                    if (layers->at(i).getId() == layerSelected && layers->at(i).getCategory() != 3 && *currentTool == 1)
+                    if (layers->at(i).getId() == layerSelected )
                     {
-
+                        if (layers->at(i).getCategory() != 3 && *currentTool == 1)
+                        {
                             layers->at(i).tiles.at(id).setId(currentTile->at(0));
                             qDebug() << id << layers->at(i).tiles.at(id).getId();
+                        } else if (layers->at(i).getCategory() == 3 && *currentTool == 2 && layers->at(i).tiles.at(id).getId() == 0)
+                        {
+                            layers->at(i).addObject();
+                            layers->at(i).tiles.at(id).setId(layers->at(i).getObjects());
+                            qDebug() << "Object added!" << layers->at(i).tiles.at(id).getId();
+                        }
 
                     }
                 }
@@ -114,10 +121,66 @@ void GLWidget::paintEvent(QPaintEvent *event)
                 {
                     startx = 32*fmod(layers->at(i).tiles.at(j).getId()-1, spriteSheet.width()/32);
                     starty = 32*ceil(double(layers->at(i).tiles.at(j).getId())/(spriteSheet.width()/32)) - 32;
-                    if (layers->at(i).getCategory() != 2)
+                    if (layers->at(i).getCategory() == 0)
                     {
                         painter.drawImage(x*32,y*32, spriteSheet, startx, starty, 32, 32);
-                    } else {
+                    }
+                }
+                    x++;
+                    if (x*32 > mapWidth*32-32)
+                    {
+
+                        y++;
+                        x = 0;
+                    }
+
+            }
+        }
+    }
+    for (int i = 0; i < layers->size(); ++i)
+    {
+        int x = 0;
+        int y = 0;
+        if (layers->at(i).isVisible())
+        {
+            for (int j = 0; j < layers->at(i).tiles.size(); ++j)
+            {
+                if (layers->at(i).tiles.at(j).getId() != 0)
+                {
+                    startx = 32*fmod(layers->at(i).tiles.at(j).getId()-1, spriteSheet.width()/32);
+                    starty = 32*ceil(double(layers->at(i).tiles.at(j).getId())/(spriteSheet.width()/32)) - 32;
+                    if (layers->at(i).getCategory() == 1)
+                    {
+                        painter.drawImage(x*32,y*32, spriteSheet, startx, starty, 32, 32);
+                    }
+                }
+                    x++;
+                    if (x*32 > mapWidth*32-32)
+                    {
+
+                        y++;
+                        x = 0;
+                    }
+
+            }
+        }
+    }
+
+
+    for (int i = 0; i < layers->size(); ++i)
+    {
+        int x = 0;
+        int y = 0;
+        if (layers->at(i).isVisible())
+        {
+
+            for (int j = 0; j < layers->at(i).tiles.size(); ++j)
+            {
+                if (layers->at(i).tiles.at(j).getId() != 0)
+                {
+                    startx = 32*fmod(layers->at(i).tiles.at(j).getId()-1, spriteSheet.width()/32);
+                    starty = 32*ceil(double(layers->at(i).tiles.at(j).getId())/(spriteSheet.width()/32)) - 32;
+                    if (layers->at(i).getCategory() == 2) {
 
                         collisionRect.setTopLeft(QPoint(x*32, y*32));
                         collisionRect.setWidth(31);
@@ -138,15 +201,66 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
             }
         }
-
-
     }
+
+    for (int i = 0; i < layers->size(); ++i)
+    {
+        int x = 0;
+        int y = 0;
+        if (layers->at(i).isVisible())
+        {
+
+
+            for (int j = 0; j < layers->at(i).tiles.size(); ++j)
+            {
+                if (layers->at(i).tiles.at(j).getId() != 0)
+                {
+                    startx = 32*fmod(layers->at(i).tiles.at(j).getId()-1, spriteSheet.width()/32);
+                    starty = 32*ceil(double(layers->at(i).tiles.at(j).getId())/(spriteSheet.width()/32)) - 32;
+                    if (layers->at(i).getCategory() == 3) {
+                        objectRect.setTopLeft(QPoint(x*32, y*32));
+                        objectRect.setWidth(31);
+                        objectRect.setHeight(31);
+                        painter.fillRect(objectRect, QColor(145, 145, 145, 50));
+                        painter.setPen(QPen(QColor(50, 50, 50, 95), 2, Qt::DashDotLine));
+                        painter.drawRect(objectRect);
+
+                    }
+                }
+                    x++;
+                    if (x*32 > mapWidth*32-32)
+                    {
+
+                        y++;
+                        x = 0;
+                    }
+
+            }
+
+        }
+    }
+
+
+
 
     if (cursorPos.x() > 0 && cursorPos.x() < mapWidth*32 && cursorPos.y() > 0 && cursorPos.y() < mapHeight*32)
     {
-        painter.fillRect(cursorRect, QColor(150, 185, 255, 50));
-        painter.setPen(QPen(QColor(191, 215, 255), 1, Qt::SolidLine));
-        painter.drawRect(cursorRect);
+        if (*currentTool == 1)
+        {
+            painter.fillRect(cursorRect, QColor(150, 185, 255, 50));
+            painter.setPen(QPen(QColor(191, 215, 255), 1, Qt::SolidLine));
+            painter.drawRect(cursorRect);
+        } else if (*currentTool == 2)
+        {
+            painter.fillRect(cursorRect, QColor(198, 0, 0, 50));
+            painter.setPen(QPen(QColor(147, 0, 0), 1, Qt::SolidLine));
+            painter.drawRect(cursorRect);
+        } else if (*currentTool == 3)
+        {
+            painter.fillRect(cursorRect, QColor(255, 204, 0, 50));
+            painter.setPen(QPen(QColor(211, 169, 0), 1, Qt::SolidLine));
+            painter.drawRect(cursorRect);
+        }
 
     }
 

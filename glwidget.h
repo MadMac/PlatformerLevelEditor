@@ -44,6 +44,7 @@ private:
     QPoint cursorPos;
     QRect cursorRect;
     QRect collisionRect;
+    QRect objectRect;
 
     int mapWidth, mapHeight;
     int layerSelected;

@@ -7,7 +7,7 @@ layer::layer(std::string layerName, int width, int height, int id, int category)
     this->height = height;
     this->id = id;
     this->category = category;
-
+    objects = 0;
 
     qDebug() << category;
     for (int i = 0; i < (width/32)*(height/32); ++i)
@@ -26,6 +26,16 @@ void layer::setVisible(bool visibility)
 {
     visible = visibility;
     qDebug() << visible;
+}
+
+void layer::addObject()
+{
+    objects++;
+}
+
+int layer::getObjects()
+{
+    return objects;
 }
 
 bool layer::isVisible()

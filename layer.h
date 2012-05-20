@@ -18,7 +18,8 @@ public:
     void draw();
     void loadTextures();
     std::string layerName;
-
+    void addObject();
+    int getObjects();
 private:
 
     bool visible;
@@ -26,7 +27,7 @@ private:
     int width, height;
     int id;
     int category;
-
+    int objects;
 
 };
 

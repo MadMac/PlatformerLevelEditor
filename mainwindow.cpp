@@ -10,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     currentTile.push_back(1);
     //Temp sizes
-    mapWidth = 32*10;
-    mapHeight = 32*5;
+    mapWidth = 32*15;
+    mapHeight = 32*15;
     layerSelected = 0;
     currentTool = 1;
 
@@ -116,7 +116,7 @@ void MainWindow::saveLevel()
             {
                 if (allLayers[i].getCategory() == 0)
                 {
-                    file << allLayers[i].layerName;
+                    file << "\n" << allLayers[i].layerName;
                     file << "\n";
                     for (int j = 0; j < allLayers[i].tiles.size(); ++j)
                     {
@@ -129,7 +129,7 @@ void MainWindow::saveLevel()
             {
                 if (allLayers[i].getCategory() == 1)
                 {
-                    file << allLayers[i].layerName;
+                    file <<"\n" << allLayers[i].layerName;
                     file << "\n";
                     for (int j = 0; j < allLayers[i].tiles.size(); ++j)
                     {
@@ -142,7 +142,7 @@ void MainWindow::saveLevel()
             {
                 if (allLayers[i].getCategory() == 2)
                 {
-                    file << allLayers[i].layerName;
+                    file << "\n" << allLayers[i].layerName;
                     file << "\n";
                     for (int j = 0; j < allLayers[i].tiles.size(); ++j)
                     {
@@ -160,7 +160,7 @@ void MainWindow::saveLevel()
             {
                 if (allLayers[i].getCategory() == 3)
                 {
-                    file << allLayers[i].layerName;
+                    file << "\n" << allLayers[i].layerName;
                     file << "\n";
                     for (int j = 0; j < allLayers[i].tiles.size(); ++j)
                     {
@@ -271,6 +271,7 @@ void MainWindow::changeTab()
 void MainWindow::changeToolPen()
 {
     currentTool = 1;
+
     qDebug() << "changed tool to: " << currentTool;
 
 }
