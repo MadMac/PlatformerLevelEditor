@@ -190,7 +190,12 @@ void GLWidget::paintEvent(QPaintEvent *event)
                         collisionRect.setWidth(31);
                         collisionRect.setHeight(31);
                         painter.fillRect(collisionRect, QColor(223, 255, 178, 50));
-                        painter.setPen(QPen(QColor(187, 255, 91, 95), 1, Qt::SolidLine));
+                        if (layers->at(i).getId() == layerSelected)
+                        {
+                            painter.setPen(QPen(QColor(187, 255, 91, 95), 2, Qt::SolidLine));
+                        } else {
+                            painter.setPen(QPen(QColor(106, 142, 51, 95), 1, Qt::SolidLine));
+                        }
                         painter.drawRect(collisionRect);
 
                     }
@@ -226,7 +231,14 @@ void GLWidget::paintEvent(QPaintEvent *event)
                         objectRect.setWidth(31);
                         objectRect.setHeight(31);
                         painter.fillRect(objectRect, QColor(145, 145, 145, 50));
-                        painter.setPen(QPen(QColor(50, 50, 50, 95), 2, Qt::DashDotLine));
+                        if (moveObjectId == j)
+                        {
+                            painter.setPen(QPen(QColor(211, 169, 0, 95), 2, Qt::DashDotLine));
+                        } else if (layers->at(i).getId() == layerSelected) {
+                            painter.setPen(QPen(QColor(211, 169, 130, 95), 2, Qt::DashDotLine));
+                        } else {
+                            painter.setPen(QPen(QColor(50, 50, 50, 95), 2, Qt::DashDotLine));
+                        }
                         painter.drawRect(objectRect);
 
                     }
