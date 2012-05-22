@@ -12,6 +12,8 @@ GLWidget::GLWidget(QWidget *parent) :
     rightButtonDown = false;
 
     setMouseTracking(true);
+
+    moveObjectId = 0;
 }
 
 GLWidget::~GLWidget()
@@ -24,8 +26,7 @@ void GLWidget::update()
 {
     if (leftButtonDown)
     {
-        if (cursorPos.x() > 0 && cursorPos.x() < mapWidth*32 && cursorPos.y() > 0 && cursorPos.y() < mapHeight*32)
-        {
+
             int id = 0;
             id = cursorPos.y()/32*mapWidth+cursorPos.x()/32;
 
@@ -52,12 +53,11 @@ void GLWidget::update()
             }
         }
 
-    }
+
 
     if (rightButtonDown)
     {
-        if (cursorPos.x() > 0 && cursorPos.x() < mapWidth*32 && cursorPos.y() > 0 && cursorPos.y() < mapHeight*32)
-        {
+
             int id = 0;
             id = cursorPos.y()/32*mapWidth+cursorPos.x()/32;
 
@@ -69,15 +69,19 @@ void GLWidget::update()
                     if (layers->at(i).getId() == layerSelected && layers->at(i).getCategory() != 3 && *currentTool == 1)
                     {
 
-                            layers->at(i).tiles.at(id).setId(0);
-                            qDebug() << id << layers->at(i).tiles.at(id).getId();
+                        layers->at(i).tiles.at(id).setId(0);
+                        qDebug() << id << layers->at(i).tiles.at(id).getId();
 
+                    } else if (layers->at(i).getCategory() == 3 && *currentTool == 2 && layers->at(i).tiles.at(id).getId() != 0)
+                    {
+                        layers->at(i).tiles.at(id).setId(0);
+                        qDebug() << "Object deleted!" << layers->at(i).tiles.at(id).getId();
                     }
                 }
             }
         }
 
-    }
+
 }
 
 void GLWidget::paintEvent(QPaintEvent *event)
@@ -269,27 +273,62 @@ void GLWidget::paintEvent(QPaintEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *e)
 {
+    if (cursorPos.x() > 0 && cursorPos.x() < mapWidth*32 && cursorPos.y() > 0 && cursorPos.y() < mapHeight*32)
+    {
+        if (e->button() == Qt::LeftButton)
+        {
+            if (*currentTool != 3)
+            {
+                leftButtonDown = true;
+            } else {
+                // Object Moving
+                int id = 0;
+                id = cursorPos.y()/32*mapWidth+cursorPos.x()/32;
 
-    if (e->button() == Qt::LeftButton)
-    {
-        leftButtonDown = true;
-    }
-    else if (e->button() == Qt::RightButton)
-    {
-        rightButtonDown = true;
+                if (layerSelected != -1)
+                {
+                    for (int i = 0; i < int(layers->size()); ++i)
+                    {
+                        if (layers->at(i).getId() == layerSelected )
+                        {
+                            if (layers->at(i).getCategory() == 3)
+                            {
+                                if (moveObjectId == 0 && layers->at(i).tiles.at(id).getId() != 0)
+                                {
+                                    moveObjectId = id;
+                                    qDebug() << "Object saved!" << moveObjectId << id;
+                                } else if (moveObjectId != id && moveObjectId != 0 && layers->at(i).tiles.at(id).getId() == 0) {
+                                    layers->at(i).moveObject(moveObjectId, id);
+                                    qDebug() << "Object moved from " << moveObjectId << " to " << id;
+                                    moveObjectId = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (e->button() == Qt::RightButton)
+        {
+            rightButtonDown = true;
+        }
     }
 }
-
 void GLWidget::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton)
-    {
-        leftButtonDown = false;
-    }
-    else if (e->button() == Qt::RightButton)
-    {
-        rightButtonDown = false;
-    }
+
+        if (e->button() == Qt::LeftButton)
+        {
+            leftButtonDown = false;
+
+
+
+        }
+        else if (e->button() == Qt::RightButton)
+        {
+            rightButtonDown = false;
+        }
+
 }
 
 void GLWidget::init(std::vector<layer>* layers, int width, int height, std::vector<int>* currentTile, int *currentTool)

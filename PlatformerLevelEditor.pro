@@ -42,3 +42,6 @@ FORMS    += mainwindow.ui \
     newlayer.ui \
     deletelayer.ui \
     addattribute.ui
+
+OTHER_FILES += \
+    TODO.txt

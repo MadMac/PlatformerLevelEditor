@@ -525,7 +525,7 @@
   <action name="actionRun">
    <property name="icon">
     <iconset>
-     <normaloff>icons/run.png</normaloff>icons/run.png</iconset>
+     <normaloff>../PlatformerLevelEditor-build-desktop-Qt_4_7_3_for_Desktop_-_MinGW_4_4__Qt_SDK__Debug/icons/run.png</normaloff>../PlatformerLevelEditor-build-desktop-Qt_4_7_3_for_Desktop_-_MinGW_4_4__Qt_SDK__Debug/icons/run.png</iconset>
    </property>
    <property name="text">
     <string>run</string>

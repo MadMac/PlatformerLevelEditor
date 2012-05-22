@@ -15,11 +15,11 @@ public:
     int getId();
     int getCategory();
     std::vector<tile> tiles;
-    void draw();
-    void loadTextures();
+
     std::string layerName;
     void addObject();
     int getObjects();
+    void moveObject(int oldId, int newId);
 private:
 
     bool visible;

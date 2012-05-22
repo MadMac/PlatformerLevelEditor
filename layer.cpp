@@ -33,6 +33,16 @@ void layer::addObject()
     objects++;
 }
 
+void layer::moveObject(int oldId, int newId)
+{
+    tiles.at(newId).setId(tiles.at(oldId).getId());
+    tiles.at(oldId).setId(0);
+
+    tiles.at(newId).attributes.clear();
+    tiles.at(newId).attributes = tiles.at(oldId).attributes;
+    tiles.at(oldId).attributes.clear();
+}
+
 int layer::getObjects()
 {
     return objects;
@@ -53,14 +63,4 @@ int layer::getCategory()
     return category;
 }
 
-void layer::loadTextures()
-{
 
-}
-
-
-void layer::draw()
-{
-
-
-}

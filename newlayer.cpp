@@ -37,7 +37,6 @@ void newLayer::addNewLayer()
 
     layer tempLayer(newItem->text(0).toStdString(), lWidth, lHeight, newItem->data(0, Qt::UserRole).toInt(), ui->layerSelect->currentIndex());
     layers->push_back(tempLayer);
-    layers->at(layers->size()-1).loadTextures();
     layersTree->setCurrentItem(newItem);
     layerCount->push_back(layerCount->size());
     qDebug() << "Added layer: " << newItem->text(0) << " " << newItem->data(0, Qt::UserRole).toInt() << " " << ui->layerSelect->currentText();

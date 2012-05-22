@@ -54,6 +54,8 @@ private:
     bool rightButtonDown;
 
     int *currentTool;
+
+    int moveObjectId;
 };
 
 #endif // GLWIDGET_H

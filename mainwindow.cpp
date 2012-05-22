@@ -15,22 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
     layerSelected = 0;
     currentTool = 1;
 
-
-//    editorSFML = new mapEditor(ui->tileScrollArea, QPoint(0, 0), QSize(mapWidth, mapHeight));
-//    editorSFML->init(&allLayers);
-//    editorSFML->setMinimumSize(mapWidth, mapHeight);
-//    editorSFML->setMaximumSize(mapWidth, mapHeight);
-//    ui->mapEditor->setWidget(editorSFML);
-
     editorOpenGL = new GLWidget();
     editorOpenGL->setMinimumSize(mapWidth, mapHeight);
     editorOpenGL->setMaximumSize(mapWidth, mapHeight);
     ui->mapEditor->setWidget(editorOpenGL);
     editorOpenGL->init(&allLayers, mapWidth/32, mapHeight/32, &currentTile, &currentTool);
     editorOpenGL->show();
-//    tileSFML = new tileSelection(this, QPoint(0,0), QSize(800,550));
-//    tileSFML->setMinimumSize(1024,768);
-//    ui->tileScrollArea->setWidget(tileSFML);
 
     tileGL = new tileSelection();
     tileGL->setMinimumSize(100,100);
@@ -71,13 +61,13 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 MainWindow::~MainWindow()
 {
-//    delete editorSFML;
-//    delete tileSFML;
+
     delete editorOpenGL;
     delete ui;
     delete newMapWindow;
     delete newLayerWindow;
     delete newDeleteLayerWindow;
+    delete newAttributeWindow;
     delete tileGL;
 
 }

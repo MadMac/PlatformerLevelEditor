@@ -1,0 +1,11 @@
+##### TODO #####
+
+- Objects
+    - Attributes
+    - Moving objects DONE
+    - Deleting objects DONE
+- Proper object saving
+- File loading
+- New map
+- Selecting multiple tiles
+-
