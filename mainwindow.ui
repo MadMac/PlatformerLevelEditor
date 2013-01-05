@@ -597,6 +597,10 @@
    </property>
   </action>
   <action name="actionPen">
+   <property name="icon">
+    <iconset>
+     <normaloff>../PlatformerLevelEditor-build-desktop-Qt_4_7_3_for_Desktop_-_MinGW_4_4__Qt_SDK__Debug/icons/pen.png</normaloff>../PlatformerLevelEditor-build-desktop-Qt_4_7_3_for_Desktop_-_MinGW_4_4__Qt_SDK__Debug/icons/pen.png</iconset>
+   </property>
    <property name="text">
     <string>Pen</string>
    </property>

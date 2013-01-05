@@ -24,10 +24,12 @@ GLWidget::~GLWidget()
 
 void GLWidget::update()
 {
+    int id = 0;
+    //Normal drawing while left button is down.
     if (leftButtonDown)
     {
 
-            int id = 0;
+
             id = cursorPos.y()/32*mapWidth+cursorPos.x()/32;
 
             if (layerSelected != -1)
@@ -54,11 +56,10 @@ void GLWidget::update()
         }
 
 
-
+    //When right button is down
+    //it removes tiles/objects.
     if (rightButtonDown)
     {
-
-            int id = 0;
             id = cursorPos.y()/32*mapWidth+cursorPos.x()/32;
 
             if (layerSelected != -1)
