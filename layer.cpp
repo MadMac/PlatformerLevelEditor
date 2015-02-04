@@ -9,6 +9,8 @@ layer::layer(std::string layerName, int width, int height, int id, int category)
     this->category = category;
     objects = 0;
 
+    visible = true;
+
     qDebug() << category;
     for (int i = 0; i < (width/32)*(height/32); ++i)
     {

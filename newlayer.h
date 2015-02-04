@@ -2,7 +2,7 @@
 #define NEWLAYER_H
 
 #include <QDialog>
-#include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QtDebug>
 
 #include "layer.h"

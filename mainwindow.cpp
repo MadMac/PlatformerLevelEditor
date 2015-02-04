@@ -99,7 +99,7 @@ void MainWindow::saveLevel()
     if ( nSaveFilePath.isNull() == false )
     {
         currentFilePath.setPath(nSaveFilePath);
-        file.open(currentFilePath.absolutePath().toAscii(), std::ios::in | std::ios::trunc);
+        file.open(currentFilePath.absolutePath().toLatin1(), std::ios::in | std::ios::trunc);
         if (file.is_open())
         {
             file << mapWidth;
@@ -172,7 +172,7 @@ void MainWindow::saveLevel()
 
 void MainWindow::loadLevel()
 {
-    QString nLoadFilePath = QFileDialog::getOpenFileName (this, tr("Save level"), currentFilePath.path(), ".level");
+    QString nLoadFilePath = QFileDialog::getOpenFileName (this, tr("Load level"), currentFilePath.path(), ".level");
     if ( nLoadFilePath.isNull() == false )
     {
         currentFilePath.setPath(nLoadFilePath);

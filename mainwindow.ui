@@ -497,6 +497,8 @@
    <addaction name="actionPen"/>
    <addaction name="actionAddObject"/>
    <addaction name="actionMoveObject"/>
+   <addaction name="actionActionSelectObject"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -603,6 +605,11 @@
    </property>
    <property name="text">
     <string>Pen</string>
+   </property>
+  </action>
+  <action name="actionActionSelectObject">
+   <property name="text">
+    <string>selectObject</string>
    </property>
   </action>
  </widget>

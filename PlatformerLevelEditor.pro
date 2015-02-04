@@ -4,12 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+CONFIG += qt
+QT       += core gui widgets
 
 TARGET = PlatformerLevelEditor
 TEMPLATE = app
 
-INCLUDEPATH += E:/QtSDK/Desktop/Qt/4.7.3/mingw/include
+INCLUDEPATH += D:\Qt3\5.0.2\mingw47_32\include
 
 
 SOURCES += main.cpp\

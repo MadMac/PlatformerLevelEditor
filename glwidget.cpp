@@ -108,7 +108,6 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter.begin(this);
     background = QBrush(QColor(64, 32, 64));
     painter.setBackground(background);
-//    painter.drawImage(0,0, spriteShet);
 
 
     double startx, starty;
@@ -142,6 +141,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
             }
         }
     }
+
     for (int i = 0; i < layers->size(); ++i)
     {
         int x = 0;
